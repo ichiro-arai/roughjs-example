@@ -1,0 +1,23 @@
+{
+  "name": "roughjs-example",
+  "version": "1.0.0",
+  "main": "bin/main.js",
+  "repository": "git@github.com:ichiro-arai/roughjs-example.git",
+  "author": "Ichiro Arai",
+  "license": "MIT",
+  "private": true,
+  "bin": {
+    "roughjs-example": "bin/main.js"
+  },
+  "scripts": {
+    "build": "tsc src/module.ts --outDir dist/"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.11",
+    "typescript": "^3.2.1"
+  },
+  "dependencies": {
+    "commander": "^2.19.0",
+    "roughjs": "^2.2.5"
+  }
+}
