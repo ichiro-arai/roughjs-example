@@ -1,11 +1,13 @@
 import {JSDOM} from 'jsdom'
+//import rough from "roughjs";
+import { RoughSVG } from "roughjs/bin/svg";
+
 const rough = require('roughjs')
 const dom = new JSDOM(`<body></body>`)
 const tempDocument = dom.window.document
 const svg = tempDocument.createElementNS("http://www.w3.org/2000/svg", "svg")
 
-const rc = rough.svg(svg)
-
+const rc = rough.svg(svg) as RoughSVG
 ////////////////
 const style='stroke:black;stroke-width:1;fill:yellow'
 const d=`
@@ -22,7 +24,6 @@ C 100,540 10,510 10,480
 L 10,170
 `
 svg.appendChild(rc.path(d, {stroke: 'black', fill: 'green'}))
-
 
 ////////////////////////
 let node = rc.rectangle(10, 10, 200, 200); // x, y, width, height
