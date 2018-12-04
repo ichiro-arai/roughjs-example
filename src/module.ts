@@ -5,8 +5,35 @@ const tempDocument = dom.window.document
 const svg = tempDocument.createElementNS("http://www.w3.org/2000/svg", "svg")
 
 const rc = rough.svg(svg)
+
+////////////////
+const style='stroke:black;stroke-width:1;fill:yellow'
+const d=`
+M 410,170
+C 410,200 320,230 210,230
+C 100,230 10,200 10,170
+C 10,140 100,110 210,110
+C 320,110 410,130 410,170
+z
+M 410,170
+L 410,480
+C 410,500 320,540 210,540
+C 100,540 10,510 10,480
+L 10,170
+`
+svg.appendChild(rc.path(d, {stroke: 'black', fill: 'green'}))
+
+
+////////////////////////
 let node = rc.rectangle(10, 10, 200, 200); // x, y, width, height
 svg.appendChild(node)
+
+svg.appendChild(rc.path('M80 80 A 45 45, 0, 0, 0, 125 125 L 125 80 Z', { fill: 'green' }))
+svg.appendChild(rc.path('M230 80 A 45 45, 0, 1, 0, 275 125 L 275 80 Z', { fill: 'purple' }))
+svg.appendChild(rc.path('M80 230 A 45 45, 0, 0, 1, 125 275 L 125 230 Z', { fill: 'red' }))
+svg.appendChild(rc.path('M230 230 A 45 45, 0, 1, 1, 275 275 L 275 230 Z', { fill: 'blue' }))
+
+svg.appendChild(rc.path('M10 315 L 110 215 A 30 50 0 0 1 162.55 162.45 L 172.55 152.45 A 30 50 -45 0 1 215.1 109.9 L 315 10', {stroke: 'black', fill: 'green'}))
 
 ///////////////////
 svg.appendChild(rc.line(60, 60, 190, 60));
@@ -87,7 +114,6 @@ for (let i = 0; i < 20; i++) {
 svg.appendChild(rc.curve(points, {
   roughness: 1.2, stroke: 'red', strokeWidth: 3
 }));
-
 
 console.log('<?xml version="1.0" encoding="UTF-8" standalone="no"?>')
 var tmp = dom.window.document.createElement("div")
