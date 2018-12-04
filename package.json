@@ -17,7 +17,9 @@
     "typescript": "^3.2.1"
   },
   "dependencies": {
+    "@types/jsdom": "^12.2.0",
     "commander": "^2.19.0",
+    "jsdom": "^13.0.0",
     "roughjs": "^2.2.5"
   }
 }
