@@ -7,7 +7,7 @@ stmt_list: stmt (';' stmt)* ';'? ;
 stmt: node_stmt
     | edge_stmt
     | attr_stmt
-	| assignment
+    | assignment
     | cluster
     ;
 
