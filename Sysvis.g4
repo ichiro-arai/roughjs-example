@@ -1,25 +1,25 @@
 grammar Sysvis;
 
 story: frame ('---' frame)* ';'? ;
-frame: stmt_list ;
+frame: statements ;
 
-stmt_list: stmt (';' stmt)* ';'? ;
-stmt: node_stmt
-    | edge_stmt
-    | attr_stmt
-    | assignment
+statements: statement (';' statement)* ';'? ;
+stmt: node
+    | edge
+    | attr
+    | assign
     | cluster
     ;
 
-attr_stmt : (CLUSTER | NODE | EDGE) attr_list ;
-attr_list : '[' assignment (',' assignment)* ']' ;
-assignment : ID '=' ID ;
+attr : (CLUSTER | NODE | EDGE) assignments ;
+assignments : '[' assign (',' assign)* ']' ;
+assign : ID '=' ID ;
 
-edge_stmt : ID '->' ID attr_list? ;
+edge : ID '->' ID assignments? ;
 
-node_stmt : ID attr_list? ;
+node : ID assignments? ;
 
-cluster : CLUSTER ID '{' stmt_list '}' ;
+cluster : CLUSTER ID '{' statements '}' ;
 
 NODE : 'node' ;
 EDGE : 'edge' ;

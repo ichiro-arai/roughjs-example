@@ -57,7 +57,8 @@ export interface Node extends Place {
 
 export interface Edge {
     from: PlaceId
-    to: PlaceId
+    to: PlaceId,
+    assignments: Assignment[]
 }
 
 export interface Attribute {
@@ -89,11 +90,22 @@ export class SysvisBuilder  extends AbstractParseTreeVisitor<Result> implements 
     }
 
     public visitStory (ctx: StoryContext): Result {
+
+
+
         return {
-            frames: ctx.frame().map((frame) => this.visit(frame) as Frame & Result),
+            frames: ,
             statementType: StatementType.Story
         } as Story & Result
     }
+
+    public visitFrame (ctx: FrameContext): Result {
+        return {
+            statementType: StatementType.Frame,
+            statements: this.visit(ctx.stmt_list()) as StatementList & Result
+        } as Frame & Result
+    }
+
 
     public visitStmt_list (ctx: Stmt_listContext): Result {
         const statement = {
@@ -142,15 +154,15 @@ export class SysvisBuilder  extends AbstractParseTreeVisitor<Result> implements 
 
     public visitAttr_stmt (ctx: Attr_stmtContext):Result {
         const target = ctx.CLUSTER() || ctx.NODE() || ctx.EDGE()
-        const attrList = ctx.attr_list()
-        if (target === undefined || attrList === undefined) {
+        if (target === undefined) {
             throw 'FIXME'
         }
-        const visited = this.visit(attrList) as AssignmentList & Result
+        const assignments = this.visit(ctx.attr_list()) as AssignmentList & Result
+        //const assignments = attrList.assignment().map(c => this.visit(c) as Assignment & Result)
         return {
             statementType: StatementType.Attribute,
             target: target.text.toLowerCase(),
-            assignments: attrList ? visited.assignments : []
+            assignments: assignments
         } as Attribute & Result
     }
 
@@ -182,30 +194,33 @@ export class SysvisBuilder  extends AbstractParseTreeVisitor<Result> implements 
         } as Cluster & Result
 
     }
-    public visitEdge_stmt(ctx: Edge_stmtContext): any {
+
+    public visitEdge_stmt(ctx: Edge_stmtContext): Result {
         const ids = ctx.ID().map(s => s.text)
         const attrList = ctx.attr_list()
-        if (attrList)
-        this.visit()
+        if (attrList === undefined) {
+            throw 'FIXME'
+        }
+        attrList.assignment()
+
+        const visited = this.visit(attrList) as AssignmentList & Result
+        return {
+            statementType: StatementType.Edge,
+            from: ids[0],
+            to: ids[1],
 
 
 
-        return Edge(ids[0], '->', ids[1], self.visit(attr_list) if attr_list else [])
+        } as Edge & Result
 
 
-    }
-    public visitFrame (ctx: FrameContext): any {
 
     }
     public visitNode_stmt (ctx: Node_stmtContext): any {
 
     }
     protected defaultResult(): Result {
-        throw {
-            message: 'string',
-            name: 'string',
-            stack: 'string'
-        } as Error
+        throw 'FIXME'
     }
 
 /*
