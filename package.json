@@ -10,7 +10,7 @@
     "roughjs-example": "bin/main.js"
   },
   "scripts": {
-    "build": "tsc --target es6 src/module.ts --outDir dist/",
+    "build": "tsc --target es5 src/builder.ts --outDir dist/",
     "antlr4ts": "antlr4ts -visitor -o src/generated/ Sysvis.g4"
   },
   "dependencies": {
