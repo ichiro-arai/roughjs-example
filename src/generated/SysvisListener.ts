@@ -5,13 +5,13 @@ import { ParseTreeListener } from "antlr4ts/tree/ParseTreeListener";
 
 import { StoryContext } from "./SysvisParser";
 import { FrameContext } from "./SysvisParser";
-import { Stmt_listContext } from "./SysvisParser";
+import { StatementsContext } from "./SysvisParser";
 import { StmtContext } from "./SysvisParser";
-import { Attr_stmtContext } from "./SysvisParser";
-import { Attr_listContext } from "./SysvisParser";
-import { AssignmentContext } from "./SysvisParser";
-import { Edge_stmtContext } from "./SysvisParser";
-import { Node_stmtContext } from "./SysvisParser";
+import { AttrContext } from "./SysvisParser";
+import { AssignmentsContext } from "./SysvisParser";
+import { AssignContext } from "./SysvisParser";
+import { EdgeContext } from "./SysvisParser";
+import { NodeContext } from "./SysvisParser";
 import { ClusterContext } from "./SysvisParser";
 
 
@@ -43,15 +43,15 @@ export interface SysvisListener extends ParseTreeListener {
 	exitFrame?: (ctx: FrameContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.stmt_list`.
+	 * Enter a parse tree produced by `SysvisParser.statements`.
 	 * @param ctx the parse tree
 	 */
-	enterStmt_list?: (ctx: Stmt_listContext) => void;
+	enterStatements?: (ctx: StatementsContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.stmt_list`.
+	 * Exit a parse tree produced by `SysvisParser.statements`.
 	 * @param ctx the parse tree
 	 */
-	exitStmt_list?: (ctx: Stmt_listContext) => void;
+	exitStatements?: (ctx: StatementsContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `SysvisParser.stmt`.
@@ -65,59 +65,59 @@ export interface SysvisListener extends ParseTreeListener {
 	exitStmt?: (ctx: StmtContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.attr_stmt`.
+	 * Enter a parse tree produced by `SysvisParser.attr`.
 	 * @param ctx the parse tree
 	 */
-	enterAttr_stmt?: (ctx: Attr_stmtContext) => void;
+	enterAttr?: (ctx: AttrContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.attr_stmt`.
+	 * Exit a parse tree produced by `SysvisParser.attr`.
 	 * @param ctx the parse tree
 	 */
-	exitAttr_stmt?: (ctx: Attr_stmtContext) => void;
+	exitAttr?: (ctx: AttrContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.attr_list`.
+	 * Enter a parse tree produced by `SysvisParser.assignments`.
 	 * @param ctx the parse tree
 	 */
-	enterAttr_list?: (ctx: Attr_listContext) => void;
+	enterAssignments?: (ctx: AssignmentsContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.attr_list`.
+	 * Exit a parse tree produced by `SysvisParser.assignments`.
 	 * @param ctx the parse tree
 	 */
-	exitAttr_list?: (ctx: Attr_listContext) => void;
+	exitAssignments?: (ctx: AssignmentsContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.assignment`.
+	 * Enter a parse tree produced by `SysvisParser.assign`.
 	 * @param ctx the parse tree
 	 */
-	enterAssignment?: (ctx: AssignmentContext) => void;
+	enterAssign?: (ctx: AssignContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.assignment`.
+	 * Exit a parse tree produced by `SysvisParser.assign`.
 	 * @param ctx the parse tree
 	 */
-	exitAssignment?: (ctx: AssignmentContext) => void;
+	exitAssign?: (ctx: AssignContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.edge_stmt`.
+	 * Enter a parse tree produced by `SysvisParser.edge`.
 	 * @param ctx the parse tree
 	 */
-	enterEdge_stmt?: (ctx: Edge_stmtContext) => void;
+	enterEdge?: (ctx: EdgeContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.edge_stmt`.
+	 * Exit a parse tree produced by `SysvisParser.edge`.
 	 * @param ctx the parse tree
 	 */
-	exitEdge_stmt?: (ctx: Edge_stmtContext) => void;
+	exitEdge?: (ctx: EdgeContext) => void;
 
 	/**
-	 * Enter a parse tree produced by `SysvisParser.node_stmt`.
+	 * Enter a parse tree produced by `SysvisParser.node`.
 	 * @param ctx the parse tree
 	 */
-	enterNode_stmt?: (ctx: Node_stmtContext) => void;
+	enterNode?: (ctx: NodeContext) => void;
 	/**
-	 * Exit a parse tree produced by `SysvisParser.node_stmt`.
+	 * Exit a parse tree produced by `SysvisParser.node`.
 	 * @param ctx the parse tree
 	 */
-	exitNode_stmt?: (ctx: Node_stmtContext) => void;
+	exitNode?: (ctx: NodeContext) => void;
 
 	/**
 	 * Enter a parse tree produced by `SysvisParser.cluster`.

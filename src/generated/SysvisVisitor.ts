@@ -5,13 +5,13 @@ import { ParseTreeVisitor } from "antlr4ts/tree/ParseTreeVisitor";
 
 import { StoryContext } from "./SysvisParser";
 import { FrameContext } from "./SysvisParser";
-import { Stmt_listContext } from "./SysvisParser";
+import { StatementsContext } from "./SysvisParser";
 import { StmtContext } from "./SysvisParser";
-import { Attr_stmtContext } from "./SysvisParser";
-import { Attr_listContext } from "./SysvisParser";
-import { AssignmentContext } from "./SysvisParser";
-import { Edge_stmtContext } from "./SysvisParser";
-import { Node_stmtContext } from "./SysvisParser";
+import { AttrContext } from "./SysvisParser";
+import { AssignmentsContext } from "./SysvisParser";
+import { AssignContext } from "./SysvisParser";
+import { EdgeContext } from "./SysvisParser";
+import { NodeContext } from "./SysvisParser";
 import { ClusterContext } from "./SysvisParser";
 
 
@@ -38,11 +38,11 @@ export interface SysvisVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitFrame?: (ctx: FrameContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.stmt_list`.
+	 * Visit a parse tree produced by `SysvisParser.statements`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitStmt_list?: (ctx: Stmt_listContext) => Result;
+	visitStatements?: (ctx: StatementsContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `SysvisParser.stmt`.
@@ -52,39 +52,39 @@ export interface SysvisVisitor<Result> extends ParseTreeVisitor<Result> {
 	visitStmt?: (ctx: StmtContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.attr_stmt`.
+	 * Visit a parse tree produced by `SysvisParser.attr`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitAttr_stmt?: (ctx: Attr_stmtContext) => Result;
+	visitAttr?: (ctx: AttrContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.attr_list`.
+	 * Visit a parse tree produced by `SysvisParser.assignments`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitAttr_list?: (ctx: Attr_listContext) => Result;
+	visitAssignments?: (ctx: AssignmentsContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.assignment`.
+	 * Visit a parse tree produced by `SysvisParser.assign`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitAssignment?: (ctx: AssignmentContext) => Result;
+	visitAssign?: (ctx: AssignContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.edge_stmt`.
+	 * Visit a parse tree produced by `SysvisParser.edge`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitEdge_stmt?: (ctx: Edge_stmtContext) => Result;
+	visitEdge?: (ctx: EdgeContext) => Result;
 
 	/**
-	 * Visit a parse tree produced by `SysvisParser.node_stmt`.
+	 * Visit a parse tree produced by `SysvisParser.node`.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	visitNode_stmt?: (ctx: Node_stmtContext) => Result;
+	visitNode?: (ctx: NodeContext) => Result;
 
 	/**
 	 * Visit a parse tree produced by `SysvisParser.cluster`.

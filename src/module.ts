@@ -104,7 +104,7 @@ svg.appendChild(rc.arc(350, 300, 200, 180, Math.PI / 2, Math.PI, true, {
 }));
 
 // draw sine curve
-let points = [] as [number, number][];
+let points = []
 for (let i = 0; i < 20; i++) {
   // 4pi - 400px
   let x = (400 / 20) * i + 10;

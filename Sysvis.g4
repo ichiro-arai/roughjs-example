@@ -3,7 +3,7 @@ grammar Sysvis;
 story: frame ('---' frame)* ';'? ;
 frame: statements ;
 
-statements: statement (';' statement)* ';'? ;
+statements: stmt (';' stmt)* ';'? ;
 stmt: node
     | edge
     | attr

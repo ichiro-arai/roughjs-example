@@ -1,11 +1,19 @@
-import { SysvisVisitor } from "@/generated/SysvisVisitor"
-import { ParseTree } from 'antlr4ts/tree/ParseTree'
-import { AssignmentContext, SysvisParser, Attr_listContext, Attr_stmtContext, ClusterContext, Edge_stmtContext, FrameContext, Node_stmtContext, StmtContext, Stmt_listContext, StoryContext } from './generated/SysvisParser'
-import { ANTLRInputStream, CommonTokenStream } from 'antlr4ts'
-import { SysvisLexer } from './generated/SysvisLexer';
-import { RuleNode } from 'antlr4ts/tree/RuleNode';
-import { ErrorNode } from 'antlr4ts/tree/ErrorNode';
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode';
+import {SysvisVisitor} from "@/generated/SysvisVisitor"
+import {
+    AssignContext,
+    AssignmentsContext,
+    AttrContext,
+    ClusterContext,
+    EdgeContext,
+    FrameContext,
+    NodeContext,
+    StatementsContext,
+    StmtContext,
+    StoryContext,
+    SysvisParser
+} from './generated/SysvisParser'
+import {ANTLRInputStream, CommonTokenStream} from 'antlr4ts'
+import {SysvisLexer} from './generated/SysvisLexer';
 import {AbstractParseTreeVisitor} from "antlr4ts/tree";
 
 interface Result {
@@ -15,13 +23,13 @@ interface Result {
 enum StatementType {
     Story,
     Frame,
-    StatementList,
+    Statements,
     Cluster,
     Node,
     Edge,
     Attribute,
     Assignment,
-    AssignmentList
+    Assignments
 }
 
 export interface Story {
@@ -43,9 +51,7 @@ export interface Place {
     id: PlaceId
 }
 
-export interface PlaceId {
-    stringValue: string
-}
+type PlaceId = string
 
 export interface Cluster extends Place {
     statements: StatementList
@@ -66,7 +72,7 @@ export interface Attribute {
     assignments: Assignment[]
 }
 
-interface AssignmentList {
+interface Assignments {
     assignments: Assignment[]
 }
 
@@ -74,6 +80,35 @@ export interface Assignment {
     key: string
     value: string
 }
+
+
+const example = `
+cluster clients {
+  type='client';
+  c1;
+  c2;
+};
+
+cluster kvs {
+  type='server';
+  node [shape='cylinder'];
+  s1;
+  s2;
+  s3;
+  hinted_hand_off[shape='box'];
+};
+---
+c1 -> s1 [label='write x=1', style=dotted];
+c1 -> s2 [label='write x=1'];
+s1[label='x=1'];
+s2[label='x=1'];
+---
+c2[label='x=1'];
+c2 -> s2 [label='read x=1'];
+`
+const result = SysvisBuilder.build(example)
+console.log(JSON.stringify(result))
+
 
 
 
@@ -89,27 +124,81 @@ export class SysvisBuilder  extends AbstractParseTreeVisitor<Result> implements 
         return new SysvisBuilder().visit(tree)
     }
 
-    public visitStory (ctx: StoryContext): Result {
-
-
-
-        return {
-            frames: ,
-            statementType: StatementType.Story
-        } as Story & Result
+    protected defaultResult(): Result {
+        throw 'FIXME'
     }
 
-    public visitFrame (ctx: FrameContext): Result {
+    public visitAssign(ctx: AssignContext): Result {
+        const ids = ctx.ID().map(id => id.text)
+        return {
+            statementType: StatementType.Assignment,
+            key: ids[0],
+            value: ids[1]
+        } as Assignment & Result
+    }
+
+    public visitAssignments(ctx: AssignmentsContext): Result {
+        return {
+            statementType: StatementType.Assignments,
+            assignments: ctx.assign().map(c => this.visit(c) as Assignment & Result)
+        } as Assignments & Result
+    }
+
+    public visitAttr(ctx: AttrContext): Result {
+        const target = ctx.CLUSTER() || ctx.NODE() || ctx.EDGE()
+        if (target === undefined) {
+            throw 'FIXME'
+        }
+        const assignments = this.visit(ctx.assignments()) as Assignments & Result
+        return {
+            statementType: StatementType.Attribute,
+            target: target.text.toLowerCase(),
+            assignments: assignments
+        } as Attribute & Result
+    }
+
+    public visitCluster(ctx: ClusterContext): Result {
+        return {
+            statementType: StatementType.Cluster,
+            id: {
+                stringValue: ctx.ID().text
+            } as PlaceId,
+            statements: this.visit(ctx.statements()) as StatementList & Result
+        } as Cluster & Result
+
+    }
+
+    public visitEdge(ctx: EdgeContext) : Result {
+        const ids = ctx.ID().map(s => s.text)
+        const children = ctx.assignments()
+        const visited = children ? this.visit(children) as Assignments & Result : {assignments: []}
+        return {
+            statementType: StatementType.Edge,
+            from: ids[0],
+            to: ids[1],
+            assignments: visited.assignments
+        } as Edge & Result
+    }
+
+    public visitFrame (ctx: FrameContext) :Result {
         return {
             statementType: StatementType.Frame,
-            statements: this.visit(ctx.stmt_list()) as StatementList & Result
+            statements: this.visit(ctx.statements()) as StatementList & Result
         } as Frame & Result
     }
 
+    public visitNode (ctx: NodeContext): Result {
+        const visited = this.visit(ctx.assignments()) as Assignments & Result
+        return {
+            statementType: StatementType.Node,
+            id: ctx.ID().text,
+            assignments: visited.assignments
+        } as Node & Result
+    }
 
-    public visitStmt_list (ctx: Stmt_listContext): Result {
+    public visitStatements (ctx: StatementsContext) :Result{
         const statement = {
-            statementType: StatementType.StatementList,
+            statementType: StatementType.Statements,
             places: [],
             edges: [],
             attributes: [],
@@ -137,139 +226,24 @@ export class SysvisBuilder  extends AbstractParseTreeVisitor<Result> implements 
         })
         return statement
     }
-
-    public visitStmt (ctx: StmtContext): Result {
+    public visitStmt (ctx: StmtContext) : Result{
         const child =
-            ctx.node_stmt() ||
-            ctx.edge_stmt() ||
-            ctx.attr_stmt() ||
-            ctx.assignment() ||
+            ctx.node() ||
+            ctx.edge() ||
+            ctx.attr() ||
+            ctx.assign() ||
             ctx.cluster()
         if (child === undefined) {
-            throw 'FIXME' // FIXME
+            throw 'internal error'
         } else {
             return this.visit(child)
         }
     }
 
-    public visitAttr_stmt (ctx: Attr_stmtContext):Result {
-        const target = ctx.CLUSTER() || ctx.NODE() || ctx.EDGE()
-        if (target === undefined) {
-            throw 'FIXME'
-        }
-        const assignments = this.visit(ctx.attr_list()) as AssignmentList & Result
-        //const assignments = attrList.assignment().map(c => this.visit(c) as Assignment & Result)
+    public visitStory (ctx: StoryContext): Result {
         return {
-            statementType: StatementType.Attribute,
-            target: target.text.toLowerCase(),
-            assignments: assignments
-        } as Attribute & Result
-    }
-
-    public visitAttr_list(ctx: Attr_listContext):Result {
-        return {
-            statementType: StatementType.AssignmentList,
-            assignments: ctx.assignment().map(s => this.visit(s)as Assignment & Result)
-        } as AssignmentList & Result
-    }
-
-    public visitAssignment(ctx: AssignmentContext): Result {
-        const ids = ctx.ID().map(id => id.text)
-        return {
-            statementType: StatementType.Assignment,
-            key: ids[0],
-            value: ids[1]
-        } as Assignment & Result
-    }
-
-    public visitCluster(ctx: ClusterContext): Result {
-        const statementList = ctx.stmt_list()
-        const visited = this.visit(statementList) as StatementList & Result
-        return {
-            statementType: StatementType.Cluster,
-            id: {
-                stringValue: ctx.ID().text
-            } as PlaceId,
-            statements: visited
-        } as Cluster & Result
-
-    }
-
-    public visitEdge_stmt(ctx: Edge_stmtContext): Result {
-        const ids = ctx.ID().map(s => s.text)
-        const attrList = ctx.attr_list()
-        if (attrList === undefined) {
-            throw 'FIXME'
-        }
-        attrList.assignment()
-
-        const visited = this.visit(attrList) as AssignmentList & Result
-        return {
-            statementType: StatementType.Edge,
-            from: ids[0],
-            to: ids[1],
-
-
-
-        } as Edge & Result
-
-
-
-    }
-    public visitNode_stmt (ctx: Node_stmtContext): any {
-
-    }
-    protected defaultResult(): Result {
-        throw 'FIXME'
-    }
-
-/*
-    public visit(tree: ParseTree): Result {
-        return tree.accept(this)
-    }
-
-    visitChildren(node: RuleNode): Result {
-        return undefined;
-    }
-
-    visitErrorNode(node: ErrorNode): Result {
-        return undefined;
-    }
-
-    visitTerminal(node: TerminalNode): Result {
-        return undefined;
-    }
- */
-
-}
-/*
-class StoryVisitor extends AbstractParseTreeVisitor<Story> {
-    protected defaultResult(): Story {
-        return {frames:[], id: {stringValue: ''} as PlaceId} as (Story | Place)
+            frames: ctx.frame().map(c => this.visit(c) as Frame & Result),
+            statementType: StatementType.Story
+        } as Story & Result
     }
 }
-
-class FrameVisitor extends AbstractParseTreeVisitor<Frame> implements SysvisVisitor<Frame> {
-    protected defaultResult(): Frame {
-        return {
-            statements: {
-                places: [],
-                edges: [],
-                attributes: [],
-                assignments: []
-            }
-        }
-    }
-}
-
-class StatementListVisitor extends AbstractParseTreeVisitor<StatementList> {
-    protected defaultResult(): StatementList {
-        return {
-            places: [],
-            edges: [],
-            attributes: [],
-            assignments: []
-        };
-    }
-}
-*/

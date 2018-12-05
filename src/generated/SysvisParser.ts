@@ -44,18 +44,18 @@ export class SysvisParser extends Parser {
 	public static readonly SPACES = 14;
 	public static readonly RULE_story = 0;
 	public static readonly RULE_frame = 1;
-	public static readonly RULE_stmt_list = 2;
+	public static readonly RULE_statements = 2;
 	public static readonly RULE_stmt = 3;
-	public static readonly RULE_attr_stmt = 4;
-	public static readonly RULE_attr_list = 5;
-	public static readonly RULE_assignment = 6;
-	public static readonly RULE_edge_stmt = 7;
-	public static readonly RULE_node_stmt = 8;
+	public static readonly RULE_attr = 4;
+	public static readonly RULE_assignments = 5;
+	public static readonly RULE_assign = 6;
+	public static readonly RULE_edge = 7;
+	public static readonly RULE_node = 8;
 	public static readonly RULE_cluster = 9;
 	// tslint:disable:no-trailing-whitespace
 	public static readonly ruleNames: string[] = [
-		"story", "frame", "stmt_list", "stmt", "attr_stmt", "attr_list", "assignment", 
-		"edge_stmt", "node_stmt", "cluster",
+		"story", "frame", "statements", "stmt", "attr", "assignments", "assign", 
+		"edge", "node", "cluster",
 	];
 
 	private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -148,7 +148,7 @@ export class SysvisParser extends Parser {
 			this.enterOuterAlt(_localctx, 1);
 			{
 			this.state = 31;
-			this.stmt_list();
+			this.statements();
 			}
 		}
 		catch (re) {
@@ -166,9 +166,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public stmt_list(): Stmt_listContext {
-		let _localctx: Stmt_listContext = new Stmt_listContext(this._ctx, this.state);
-		this.enterRule(_localctx, 4, SysvisParser.RULE_stmt_list);
+	public statements(): StatementsContext {
+		let _localctx: StatementsContext = new StatementsContext(this._ctx, this.state);
+		this.enterRule(_localctx, 4, SysvisParser.RULE_statements);
 		try {
 			let _alt: number;
 			this.enterOuterAlt(_localctx, 1);
@@ -231,7 +231,7 @@ export class SysvisParser extends Parser {
 				this.enterOuterAlt(_localctx, 1);
 				{
 				this.state = 44;
-				this.node_stmt();
+				this.node();
 				}
 				break;
 
@@ -239,7 +239,7 @@ export class SysvisParser extends Parser {
 				this.enterOuterAlt(_localctx, 2);
 				{
 				this.state = 45;
-				this.edge_stmt();
+				this.edge();
 				}
 				break;
 
@@ -247,7 +247,7 @@ export class SysvisParser extends Parser {
 				this.enterOuterAlt(_localctx, 3);
 				{
 				this.state = 46;
-				this.attr_stmt();
+				this.attr();
 				}
 				break;
 
@@ -255,7 +255,7 @@ export class SysvisParser extends Parser {
 				this.enterOuterAlt(_localctx, 4);
 				{
 				this.state = 47;
-				this.assignment();
+				this.assign();
 				}
 				break;
 
@@ -283,9 +283,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public attr_stmt(): Attr_stmtContext {
-		let _localctx: Attr_stmtContext = new Attr_stmtContext(this._ctx, this.state);
-		this.enterRule(_localctx, 8, SysvisParser.RULE_attr_stmt);
+	public attr(): AttrContext {
+		let _localctx: AttrContext = new AttrContext(this._ctx, this.state);
+		this.enterRule(_localctx, 8, SysvisParser.RULE_attr);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -303,7 +303,7 @@ export class SysvisParser extends Parser {
 				this.consume();
 			}
 			this.state = 52;
-			this.attr_list();
+			this.assignments();
 			}
 		}
 		catch (re) {
@@ -321,9 +321,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public attr_list(): Attr_listContext {
-		let _localctx: Attr_listContext = new Attr_listContext(this._ctx, this.state);
-		this.enterRule(_localctx, 10, SysvisParser.RULE_attr_list);
+	public assignments(): AssignmentsContext {
+		let _localctx: AssignmentsContext = new AssignmentsContext(this._ctx, this.state);
+		this.enterRule(_localctx, 10, SysvisParser.RULE_assignments);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -331,7 +331,7 @@ export class SysvisParser extends Parser {
 			this.state = 54;
 			this.match(SysvisParser.T__2);
 			this.state = 55;
-			this.assignment();
+			this.assign();
 			this.state = 60;
 			this._errHandler.sync(this);
 			_la = this._input.LA(1);
@@ -341,7 +341,7 @@ export class SysvisParser extends Parser {
 				this.state = 56;
 				this.match(SysvisParser.T__3);
 				this.state = 57;
-				this.assignment();
+				this.assign();
 				}
 				}
 				this.state = 62;
@@ -367,9 +367,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public assignment(): AssignmentContext {
-		let _localctx: AssignmentContext = new AssignmentContext(this._ctx, this.state);
-		this.enterRule(_localctx, 12, SysvisParser.RULE_assignment);
+	public assign(): AssignContext {
+		let _localctx: AssignContext = new AssignContext(this._ctx, this.state);
+		this.enterRule(_localctx, 12, SysvisParser.RULE_assign);
 		try {
 			this.enterOuterAlt(_localctx, 1);
 			{
@@ -396,9 +396,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public edge_stmt(): Edge_stmtContext {
-		let _localctx: Edge_stmtContext = new Edge_stmtContext(this._ctx, this.state);
-		this.enterRule(_localctx, 14, SysvisParser.RULE_edge_stmt);
+	public edge(): EdgeContext {
+		let _localctx: EdgeContext = new EdgeContext(this._ctx, this.state);
+		this.enterRule(_localctx, 14, SysvisParser.RULE_edge);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -415,7 +415,7 @@ export class SysvisParser extends Parser {
 			if (_la === SysvisParser.T__2) {
 				{
 				this.state = 72;
-				this.attr_list();
+				this.assignments();
 				}
 			}
 
@@ -436,9 +436,9 @@ export class SysvisParser extends Parser {
 		return _localctx;
 	}
 	// @RuleVersion(0)
-	public node_stmt(): Node_stmtContext {
-		let _localctx: Node_stmtContext = new Node_stmtContext(this._ctx, this.state);
-		this.enterRule(_localctx, 16, SysvisParser.RULE_node_stmt);
+	public node(): NodeContext {
+		let _localctx: NodeContext = new NodeContext(this._ctx, this.state);
+		this.enterRule(_localctx, 16, SysvisParser.RULE_node);
 		let _la: number;
 		try {
 			this.enterOuterAlt(_localctx, 1);
@@ -451,7 +451,7 @@ export class SysvisParser extends Parser {
 			if (_la === SysvisParser.T__2) {
 				{
 				this.state = 76;
-				this.attr_list();
+				this.assignments();
 				}
 			}
 
@@ -485,7 +485,7 @@ export class SysvisParser extends Parser {
 			this.state = 81;
 			this.match(SysvisParser.T__7);
 			this.state = 82;
-			this.stmt_list();
+			this.statements();
 			this.state = 83;
 			this.match(SysvisParser.T__8);
 			}
@@ -591,8 +591,8 @@ export class StoryContext extends ParserRuleContext {
 
 
 export class FrameContext extends ParserRuleContext {
-	public stmt_list(): Stmt_listContext {
-		return this.getRuleContext(0, Stmt_listContext);
+	public statements(): StatementsContext {
+		return this.getRuleContext(0, StatementsContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
@@ -622,7 +622,7 @@ export class FrameContext extends ParserRuleContext {
 }
 
 
-export class Stmt_listContext extends ParserRuleContext {
+export class StatementsContext extends ParserRuleContext {
 	public stmt(): StmtContext[];
 	public stmt(i: number): StmtContext;
 	public stmt(i?: number): StmtContext | StmtContext[] {
@@ -636,23 +636,23 @@ export class Stmt_listContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_stmt_list; }
+	public get ruleIndex(): number { return SysvisParser.RULE_statements; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterStmt_list) {
-			listener.enterStmt_list(this);
+		if (listener.enterStatements) {
+			listener.enterStatements(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitStmt_list) {
-			listener.exitStmt_list(this);
+		if (listener.exitStatements) {
+			listener.exitStatements(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitStmt_list) {
-			return visitor.visitStmt_list(this);
+		if (visitor.visitStatements) {
+			return visitor.visitStatements(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -661,17 +661,17 @@ export class Stmt_listContext extends ParserRuleContext {
 
 
 export class StmtContext extends ParserRuleContext {
-	public node_stmt(): Node_stmtContext | undefined {
-		return this.tryGetRuleContext(0, Node_stmtContext);
+	public node(): NodeContext | undefined {
+		return this.tryGetRuleContext(0, NodeContext);
 	}
-	public edge_stmt(): Edge_stmtContext | undefined {
-		return this.tryGetRuleContext(0, Edge_stmtContext);
+	public edge(): EdgeContext | undefined {
+		return this.tryGetRuleContext(0, EdgeContext);
 	}
-	public attr_stmt(): Attr_stmtContext | undefined {
-		return this.tryGetRuleContext(0, Attr_stmtContext);
+	public attr(): AttrContext | undefined {
+		return this.tryGetRuleContext(0, AttrContext);
 	}
-	public assignment(): AssignmentContext | undefined {
-		return this.tryGetRuleContext(0, AssignmentContext);
+	public assign(): AssignContext | undefined {
+		return this.tryGetRuleContext(0, AssignContext);
 	}
 	public cluster(): ClusterContext | undefined {
 		return this.tryGetRuleContext(0, ClusterContext);
@@ -704,9 +704,9 @@ export class StmtContext extends ParserRuleContext {
 }
 
 
-export class Attr_stmtContext extends ParserRuleContext {
-	public attr_list(): Attr_listContext {
-		return this.getRuleContext(0, Attr_listContext);
+export class AttrContext extends ParserRuleContext {
+	public assignments(): AssignmentsContext {
+		return this.getRuleContext(0, AssignmentsContext);
 	}
 	public CLUSTER(): TerminalNode | undefined { return this.tryGetToken(SysvisParser.CLUSTER, 0); }
 	public NODE(): TerminalNode | undefined { return this.tryGetToken(SysvisParser.NODE, 0); }
@@ -715,23 +715,23 @@ export class Attr_stmtContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_attr_stmt; }
+	public get ruleIndex(): number { return SysvisParser.RULE_attr; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterAttr_stmt) {
-			listener.enterAttr_stmt(this);
+		if (listener.enterAttr) {
+			listener.enterAttr(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitAttr_stmt) {
-			listener.exitAttr_stmt(this);
+		if (listener.exitAttr) {
+			listener.exitAttr(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitAttr_stmt) {
-			return visitor.visitAttr_stmt(this);
+		if (visitor.visitAttr) {
+			return visitor.visitAttr(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -739,37 +739,37 @@ export class Attr_stmtContext extends ParserRuleContext {
 }
 
 
-export class Attr_listContext extends ParserRuleContext {
-	public assignment(): AssignmentContext[];
-	public assignment(i: number): AssignmentContext;
-	public assignment(i?: number): AssignmentContext | AssignmentContext[] {
+export class AssignmentsContext extends ParserRuleContext {
+	public assign(): AssignContext[];
+	public assign(i: number): AssignContext;
+	public assign(i?: number): AssignContext | AssignContext[] {
 		if (i === undefined) {
-			return this.getRuleContexts(AssignmentContext);
+			return this.getRuleContexts(AssignContext);
 		} else {
-			return this.getRuleContext(i, AssignmentContext);
+			return this.getRuleContext(i, AssignContext);
 		}
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_attr_list; }
+	public get ruleIndex(): number { return SysvisParser.RULE_assignments; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterAttr_list) {
-			listener.enterAttr_list(this);
+		if (listener.enterAssignments) {
+			listener.enterAssignments(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitAttr_list) {
-			listener.exitAttr_list(this);
+		if (listener.exitAssignments) {
+			listener.exitAssignments(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitAttr_list) {
-			return visitor.visitAttr_list(this);
+		if (visitor.visitAssignments) {
+			return visitor.visitAssignments(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -777,7 +777,7 @@ export class Attr_listContext extends ParserRuleContext {
 }
 
 
-export class AssignmentContext extends ParserRuleContext {
+export class AssignContext extends ParserRuleContext {
 	public ID(): TerminalNode[];
 	public ID(i: number): TerminalNode;
 	public ID(i?: number): TerminalNode | TerminalNode[] {
@@ -791,23 +791,23 @@ export class AssignmentContext extends ParserRuleContext {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_assignment; }
+	public get ruleIndex(): number { return SysvisParser.RULE_assign; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterAssignment) {
-			listener.enterAssignment(this);
+		if (listener.enterAssign) {
+			listener.enterAssign(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitAssignment) {
-			listener.exitAssignment(this);
+		if (listener.exitAssign) {
+			listener.exitAssign(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitAssignment) {
-			return visitor.visitAssignment(this);
+		if (visitor.visitAssign) {
+			return visitor.visitAssign(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -815,7 +815,7 @@ export class AssignmentContext extends ParserRuleContext {
 }
 
 
-export class Edge_stmtContext extends ParserRuleContext {
+export class EdgeContext extends ParserRuleContext {
 	public ID(): TerminalNode[];
 	public ID(i: number): TerminalNode;
 	public ID(i?: number): TerminalNode | TerminalNode[] {
@@ -825,30 +825,30 @@ export class Edge_stmtContext extends ParserRuleContext {
 			return this.getToken(SysvisParser.ID, i);
 		}
 	}
-	public attr_list(): Attr_listContext | undefined {
-		return this.tryGetRuleContext(0, Attr_listContext);
+	public assignments(): AssignmentsContext | undefined {
+		return this.tryGetRuleContext(0, AssignmentsContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_edge_stmt; }
+	public get ruleIndex(): number { return SysvisParser.RULE_edge; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterEdge_stmt) {
-			listener.enterEdge_stmt(this);
+		if (listener.enterEdge) {
+			listener.enterEdge(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitEdge_stmt) {
-			listener.exitEdge_stmt(this);
+		if (listener.exitEdge) {
+			listener.exitEdge(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitEdge_stmt) {
-			return visitor.visitEdge_stmt(this);
+		if (visitor.visitEdge) {
+			return visitor.visitEdge(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -856,32 +856,32 @@ export class Edge_stmtContext extends ParserRuleContext {
 }
 
 
-export class Node_stmtContext extends ParserRuleContext {
+export class NodeContext extends ParserRuleContext {
 	public ID(): TerminalNode { return this.getToken(SysvisParser.ID, 0); }
-	public attr_list(): Attr_listContext | undefined {
-		return this.tryGetRuleContext(0, Attr_listContext);
+	public assignments(): AssignmentsContext | undefined {
+		return this.tryGetRuleContext(0, AssignmentsContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
 	}
 	// @Override
-	public get ruleIndex(): number { return SysvisParser.RULE_node_stmt; }
+	public get ruleIndex(): number { return SysvisParser.RULE_node; }
 	// @Override
 	public enterRule(listener: SysvisListener): void {
-		if (listener.enterNode_stmt) {
-			listener.enterNode_stmt(this);
+		if (listener.enterNode) {
+			listener.enterNode(this);
 		}
 	}
 	// @Override
 	public exitRule(listener: SysvisListener): void {
-		if (listener.exitNode_stmt) {
-			listener.exitNode_stmt(this);
+		if (listener.exitNode) {
+			listener.exitNode(this);
 		}
 	}
 	// @Override
 	public accept<Result>(visitor: SysvisVisitor<Result>): Result {
-		if (visitor.visitNode_stmt) {
-			return visitor.visitNode_stmt(this);
+		if (visitor.visitNode) {
+			return visitor.visitNode(this);
 		} else {
 			return visitor.visitChildren(this);
 		}
@@ -892,8 +892,8 @@ export class Node_stmtContext extends ParserRuleContext {
 export class ClusterContext extends ParserRuleContext {
 	public CLUSTER(): TerminalNode { return this.getToken(SysvisParser.CLUSTER, 0); }
 	public ID(): TerminalNode { return this.getToken(SysvisParser.ID, 0); }
-	public stmt_list(): Stmt_listContext {
-		return this.getRuleContext(0, Stmt_listContext);
+	public statements(): StatementsContext {
+		return this.getRuleContext(0, StatementsContext);
 	}
 	constructor(parent: ParserRuleContext | undefined, invokingState: number) {
 		super(parent, invokingState);
