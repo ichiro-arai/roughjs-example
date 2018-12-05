@@ -1,8 +1,8 @@
 import {JSDOM} from 'jsdom'
-//import rough from "roughjs";
-import { RoughSVG } from "roughjs/bin/svg";
+import rough from "roughjs"
+import { RoughSVG } from "roughjs/bin/svg"
 
-const rough = require('roughjs')
+//const rough = require('roughjs')
 const dom = new JSDOM(`<body></body>`)
 const tempDocument = dom.window.document
 const svg = tempDocument.createElementNS("http://www.w3.org/2000/svg", "svg")
@@ -104,7 +104,7 @@ svg.appendChild(rc.arc(350, 300, 200, 180, Math.PI / 2, Math.PI, true, {
 }));
 
 // draw sine curve
-let points = [];
+let points = [] as [number, number][];
 for (let i = 0; i < 20; i++) {
   // 4pi - 400px
   let x = (400 / 20) * i + 10;
