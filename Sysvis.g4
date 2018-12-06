@@ -6,9 +6,9 @@ frame: statements ;
 statements: stmt (';' stmt)* ';'? ;
 stmt: node
     | edge
-    | attr
     | assign
     | cluster
+    | attr
     ;
 
 attr : (CLUSTER | NODE | EDGE) assignments ;
